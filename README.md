@@ -1,8 +1,5 @@
 # 我的餐廳清單
 
-![Index page about Restaurant List](./public/image/sreenshot_01.png)
-![Search page about Restaurant List](./public/image/sreenshot_02.png)
-
 ## 介紹
 
 AC S2_3 A2 作業 打造餐廳清單，可以瀏覽餐廳、查看詳細資訊、甚至連結到地圖。
