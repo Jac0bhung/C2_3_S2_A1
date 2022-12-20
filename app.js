@@ -59,12 +59,13 @@ app.get("/restaurants/new", (req, res) => {
 
 //瀏覽特定餐廳
 app.get("/restaurants/:restaurantId", (req, res) => {
-  const { restaurantID } = req.params;
-  Restaurant.findByID(restaurantID)
+  const { restaurantId } = req.params;
+  Restaurant.findById(restaurantId)
     .lean()
-    .then((restaurantsData) => res.render("index", { restaurantsData }))
+    .then((restaurantData) => res.render("show", { restaurantData }))
     .catch((err) => console.log(err));
 });
+
 app.post("/restaurants", (req, res) => {
   Restaurant.create(req.body)
     .then(() => res.redirect("/"))
