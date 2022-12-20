@@ -11,6 +11,7 @@ const Restaurant = require("./models/restaurant"); //載入Restaurant Model
 
 //連結到資料庫
 const mongoose = require("mongoose"); // 載入 mongoose
+const restaurant = require("./models/restaurant");
 
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
@@ -66,10 +67,53 @@ app.get("/restaurants/:restaurantId", (req, res) => {
     .catch((err) => console.log(err));
 });
 
+// //修改餐廳資料
+app.get("/restaurants/:restaurantId/edit", (req, res) => {
+  const { restaurantId } = req.params;
+  restaurant
+    .findById(restaurantId)
+    .lean()
+    .then((restaurantData) => res.render("edit", { restaurantData }))
+    .catch((err) => console.log(err));
+});
+
+//修改餐廳資料資料無法SAVE
+
+// app.get("/restaurants/:restaurantId/edit", (req, res) => {
+//   const { restaurantId } = req.params;
+//   const reqBody = req.body;
+//   restaurant.findById(restaurantId)
+//     // return Resaurant.findById(restaurantId)
+//     .then((Restaurant) => {
+//       Restaurant.name = reqBody.name;
+//       Restaurant.name_en = reqBody.name_en;
+//       Restaurant.category = reqBody.category;
+//       Restaurant.image = reqBody.image;
+//       Restaurant.location = reqBody.location;
+//       Restaurant.phone = reqBody.phone;
+//       Restaurant.google_map = reqBody.google_map;
+//       Restaurant.rating = reqBody.rating;
+//       Restaurant.description = reqBody.description;
+//       return Restaurant.save();
+//     })
+//     .then(() => res.redirect(`/restaurants/${restaurantId}`))
+//     .catch((error) => console.error(error));
+// });
+
 app.post("/restaurants", (req, res) => {
-  Restaurant.create(req.body)
+  restaurant
+    .create(req.body)
     .then(() => res.redirect("/"))
     .catch((err) => console.log(err));
+});
+
+//刪除餐廳
+app.post("/restaurants/:resaurantId/delete", (req, res) => {
+  const { restaurantId } = req.params;
+  Restaurant.findById(restaurantId)
+    .then((restaurant) => restaurant.remove())
+    .then(() => res.redirect("/"))
+    .catch((error) => console.log(error));
 });
 
 //搜尋餐廳
