@@ -4,7 +4,10 @@ const port = 3000;
 
 //require express-handlebars
 const exphbs = require("express-handlebars");
-const restaurantsData = require("./restaurants.json").results;
+// const restaurantsData = require("./restaurants.json").results; //舊的用json
+
+//作業A7串DB
+const Restaurant = require("./models/restaurant"); //載入Restaurant Model
 
 //連結到資料庫
 const mongoose = require("mongoose"); // 載入 mongoose
@@ -34,8 +37,17 @@ app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 app.use(express.static("public"));
 
+//舊版撈JSON
+// app.get("/", (req, res) => {
+//   res.render("index", { restaurants: restaurantsData });
+// });
+
+//新A7新版Render
 app.get("/", (req, res) => {
-  res.render("index", { restaurants: restaurantsData });
+  Restaurant.find({})
+    .lean()
+    .then((restaurantsData) => res.render("index", { restaurantsData }))
+    .catch((err) => console.log(err));
 });
 
 app.get("/restaurants/:restaurant_id", (req, res) => {
@@ -45,15 +57,6 @@ app.get("/restaurants/:restaurant_id", (req, res) => {
   );
   res.render("show", { restaurant: restaurantShow, name: cssName });
 });
-
-// app.get("/search", (req, res) => {
-//   console.log("req.query", req.query);
-//   const keywords = req.query.keywords.trim().toLowerCase();
-//   const restaurantKeyword = restaurantsData.filter((restaurant) => {
-//     restaurant.name.toLowerCase().includes(keywords);
-//   });
-//   res.render("index", { restaurantsData: restaurantKeyword });
-// });
 
 app.get("/search", (req, res) => {
   if (!req.query.keywords) {
