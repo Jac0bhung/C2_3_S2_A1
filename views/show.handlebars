@@ -23,7 +23,7 @@
 <a href="/restaurants/{{restaurantData._id}}/edit"><button
     class="btn btn-link btn-sm"
   >Edit</button></a>
-<form action="/restaurants/{{restaurantData._id}}" method="POST">
+<form action="/restaurants/{{restaurantData._id}}?_method=DELETE" method="POST">
   <button type="submit" class="btn btn-danger btn-sm text-white">delete</button>
 </form>
 

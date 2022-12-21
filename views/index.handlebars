@@ -88,11 +88,14 @@
                 <button type="submit" class="btn btn-danger btn-sm text-white">delete</button>
               </form> --}}
               <form
-                action="./restaurants/{{this._id}}/delete"
+                action="./restaurants/{{this._id}}?_method=DELETE"
                 method="POST"
                 style="display: inline;"
               >
-                <button type="submit">delete</button>
+                <button
+                  type="submit"
+                  class="btn btn-danger btn-sm text-white"
+                >delete</button>
               </form>
             </div>
 

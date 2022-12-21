@@ -6,6 +6,9 @@ const port = 3000;
 const exphbs = require("express-handlebars");
 // const restaurantsData = require("./restaurants.json").results; //舊的用json
 
+//A8 RestFul API
+const methodOverride = require("method-override");
+
 //作業A7串DB
 const Restaurant = require("./models/restaurant"); //載入Restaurant Model
 
@@ -37,8 +40,8 @@ db.once("open", () => {
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 app.use(express.static("public"));
-
 app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride("_method"));
 
 //新A7新版Render
 app.get("/", (req, res) => {
@@ -72,7 +75,7 @@ app.get("/restaurants/:id/edit", (req, res) => {
 });
 
 // 修改餐廳資料資料無法SAVE;
-app.post("/restaurants/:restaurant_id/edit", (req, res) => {
+app.put("/restaurants/:restaurant_id", (req, res) => {
   const id = req.params.restaurant_id;
   Restaurant.findById(id)
     .then((restaurantData) => {
@@ -99,7 +102,7 @@ app.post("/restaurants", (req, res) => {
 });
 
 //刪除餐廳
-app.post("/restaurants/:id/delete", (req, res) => {
+app.delete("/restaurants/:id", (req, res) => {
   const id = req.params.id;
   return Restaurant.findById(id)
     .then((restaurant) => restaurant.remove())
