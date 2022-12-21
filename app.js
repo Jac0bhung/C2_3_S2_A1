@@ -40,11 +40,6 @@ app.use(express.static("public"));
 
 app.use(express.urlencoded({ extended: true }));
 
-//舊版撈JSON
-// app.get("/", (req, res) => {
-//   res.render("index", { restaurants: restaurantsData });
-// });
-
 //新A7新版Render
 app.get("/", (req, res) => {
   Restaurant.find({})
@@ -67,38 +62,34 @@ app.get("/restaurants/:restaurantId", (req, res) => {
     .catch((err) => console.log(err));
 });
 
-// //修改餐廳資料
-app.get("/restaurants/:restaurantId/edit", (req, res) => {
-  const { restaurantId } = req.params;
-  restaurant
-    .findById(restaurantId)
+//讀取編輯餐廳葉面 OK
+app.get("/restaurants/:id/edit", (req, res) => {
+  const id = req.params.id;
+  Restaurant.findById(id)
     .lean()
     .then((restaurantData) => res.render("edit", { restaurantData }))
     .catch((err) => console.log(err));
 });
 
-//修改餐廳資料資料無法SAVE
-
-// app.get("/restaurants/:restaurantId/edit", (req, res) => {
-//   const { restaurantId } = req.params;
-//   const reqBody = req.body;
-//   restaurant.findById(restaurantId)
-//     // return Resaurant.findById(restaurantId)
-//     .then((Restaurant) => {
-//       Restaurant.name = reqBody.name;
-//       Restaurant.name_en = reqBody.name_en;
-//       Restaurant.category = reqBody.category;
-//       Restaurant.image = reqBody.image;
-//       Restaurant.location = reqBody.location;
-//       Restaurant.phone = reqBody.phone;
-//       Restaurant.google_map = reqBody.google_map;
-//       Restaurant.rating = reqBody.rating;
-//       Restaurant.description = reqBody.description;
-//       return Restaurant.save();
-//     })
-//     .then(() => res.redirect(`/restaurants/${restaurantId}`))
-//     .catch((error) => console.error(error));
-// });
+// 修改餐廳資料資料無法SAVE;
+app.post("/restaurants/:restaurant_id/edit", (req, res) => {
+  const id = req.params.restaurant_id;
+  Restaurant.findById(id)
+    .then((restaurantData) => {
+      restaurantData.name = req.body.name;
+      restaurantData.name_en = req.body.name_en;
+      restaurantData.category = req.body.category;
+      restaurantData.image = req.body.image;
+      restaurantData.location = req.body.location;
+      restaurantData.phone = req.body.phone;
+      restaurantData.google_map = req.body.google_map;
+      restaurantData.rating = req.body.rating;
+      restaurantData.description = req.body.description;
+      return restaurantData.save();
+    })
+    .then(() => res.redirect(`/restaurants/${id}`))
+    .catch((err) => console.log(err));
+});
 
 app.post("/restaurants", (req, res) => {
   restaurant
@@ -106,15 +97,6 @@ app.post("/restaurants", (req, res) => {
     .then(() => res.redirect("/"))
     .catch((err) => console.log(err));
 });
-
-//刪除餐廳
-// app.post("/restaurants/:resaurantId/delete", (req, res) => {
-//   const { restaurantId } = req.params;
-//   Restaurant.findById(restaurantId)
-//     .then((restaurant) => restaurant.remove())
-//     .then(() => res.redirect("/"))
-//     .catch((error) => console.log(error));
-// });
 
 //刪除餐廳
 app.post("/restaurants/:id/delete", (req, res) => {
