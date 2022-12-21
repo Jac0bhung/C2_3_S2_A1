@@ -76,7 +76,7 @@ app.use(methodOverride("_method"));
 //     .catch((err) => console.log(err));
 // });
 
-// //讀取編輯餐廳頁面 
+// //讀取編輯餐廳頁面
 // app.get("/restaurants/:id/edit", (req, res) => {
 //   const id = req.params.id;
 //   Restaurant.findById(id)
@@ -85,7 +85,7 @@ app.use(methodOverride("_method"));
 //     .catch((err) => console.log(err));
 // });
 
-// // 修改餐廳資料資料無法SAVE;
+// // 修改餐廳資料資料;
 // app.put("/restaurants/:restaurant_id", (req, res) => {
 //   const id = req.params.restaurant_id;
 //   Restaurant.findById(id)
@@ -104,8 +104,6 @@ app.use(methodOverride("_method"));
 //     .then(() => res.redirect(`/restaurants/${id}`))
 //     .catch((err) => console.log(err));
 // });
-
-
 
 // //刪除餐廳
 // app.delete("/restaurants/:id", (req, res) => {

@@ -9,17 +9,17 @@ router.get("/new", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  return restaurant
+  restaurant
     .create(req.body)
     .then(() => res.redirect("/"))
     .catch((err) => console.log(err));
 });
 
 //瀏覽特定餐廳
-router.get("/:restaurantId", (req, res) => {
-  const { restaurantId } = req.params;
+router.get("/:id", (req, res) => {
+  const id = req.params.id;
   restaurant
-    .findById(restaurantId)
+    .findById(id)
     .lean()
     .then((restaurantData) => res.render("show", { restaurantData }))
     .catch((err) => console.log(err));
@@ -35,9 +35,9 @@ router.get("/:id/edit", (req, res) => {
     .catch((err) => console.log(err));
 });
 
-// 修改餐廳資料資料
-router.put("/:restaurant_id", (req, res) => {
-  const id = req.params.restaurant_id;
+// 修改餐廳資料資料;
+router.put("/:id", (req, res) => {
+  const id = req.params.id;
   restaurant
     .findById(id)
     .then((restaurantData) => {
