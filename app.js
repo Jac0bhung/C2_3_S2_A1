@@ -15,29 +15,31 @@ const routes = require("./routes");
 //作業A7串DB
 const Restaurant = require("./models/restaurant"); //載入Restaurant Model
 
-//連結到資料庫
-const mongoose = require("mongoose"); // 載入 mongoose
-const restaurant = require("./models/restaurant");
+require("./config/mongoose");
 
-if (process.env.NODE_ENV !== "production") {
-  require("dotenv").config();
-}
+// const restaurant = require("./models/restaurant");
 
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}); // 設定連線到 mongoDB
+//連結到資料庫  重構Mongooses拿掉
+// const mongoose = require("mongoose"); // 載入 mongoose
+// if (process.env.NODE_ENV !== "production") {
+//   require("dotenv").config();
+// }
 
-const db = mongoose.connection;
-//連線異常
-db.on("error", () => {
-  console.log("mongodb error!");
-});
+// mongoose.connect(process.env.MONGODB_URI, {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// }); // 設定連線到 mongoDB
 
-//連線正常
-db.once("open", () => {
-  console.log("mongodb connected!");
-});
+// const db = mongoose.connection;
+// //連線異常
+// db.on("error", () => {
+//   console.log("mongodb error!");
+// });
+
+// //連線正常
+// db.once("open", () => {
+//   console.log("mongodb connected!");
+// });
 
 //設定模板引擎
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
@@ -48,7 +50,6 @@ app.use(methodOverride("_method"));
 
 //之前無法解決的問題，是因為app.use(routes)在app.use(methodOverride)之前
 app.use(routes);
-
 
 app.listen(port, () => {
   console.log(`express is running on http://localhost:${port}`);
