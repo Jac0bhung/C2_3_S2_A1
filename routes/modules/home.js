@@ -9,7 +9,7 @@ router.get("/", (req, res) => {
   restaurant
     .find({})
     .lean()
-    .sort({ _id: "desc" })
+    // .sort({ _id: "desc" })
     .then((restaurantsData) => res.render("index", { restaurantsData }))
     // .catch((err) => console.log(err));
     //助教A11建議
@@ -56,12 +56,6 @@ router.get("/sort", (req, res) => {
   }
   if (sortMethod === "Z -> A") {
     sortBy = { name_en: "desc" };
-  }
-  if (sortMethod === "推薦指數:高至低") {
-    sortBy = { rating: "desc" };
-  }
-  if (sortMethod === "推薦指數:低至高") {
-    sortBy = { rating: "asc" };
   }
   restaurant
     .find({})
