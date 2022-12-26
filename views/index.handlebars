@@ -40,14 +40,19 @@
               ></i></button>
           </div>
 
-          <div class="input-group">
-            <select class="form-select" id="sort" name="sort">
-              <option>A > Z</option>
-              <option>Z > A</option>
-              <option>類別</option>
-              <option>地區</option>
-            </select>
-          </div> 
+          {{! 參考學員 }}
+          <div id="sort-by">
+            <form action="/sort" method="G">
+              <select id="sort" name="sortMethod" onchange="this.form.submit()">
+                <option selected>{{#if
+                    sortMethod
+                  }}{{sortMethod}}{{else}}排序方式{{/if}}</option>
+                <option value="A -> Z">A -> Z</option>
+                <option value="Z -> A">Z -> A</option>
+
+              </select>
+            </form>
+          </div>
 
         </div>
       </form>
