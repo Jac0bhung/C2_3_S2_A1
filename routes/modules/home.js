@@ -22,7 +22,7 @@ router.get("/", (req, res) => {
 //搜尋餐廳
 router.get("/search", (req, res) => {
   if (!req.query.keywords) {
-    res.redirect("/");
+    return res.redirect("/"); //助教提醒要加return
   }
 
   const keywords = req.query.keywords;
@@ -48,26 +48,53 @@ router.get("/search", (req, res) => {
 });
 
 // 參考
-router.get("/sort", (req, res) => {
-  const sortMethod = req.query.sortMethod;
-  let sortBy;
-  if (sortMethod === "A -> Z") {
-    sortBy = { name_en: "asc" };
-  }
-  if (sortMethod === "Z -> A") {
-    sortBy = { name_en: "desc" };
-  }
+// router.get("/sort", (req, res) => {
+//   const sortMethod = req.query.sortMethod;
+//   let sortBy;
+//   if (sortMethod === "A -> Z") {
+//     sortBy = { name_en: "asc" };
+//   }
+//   if (sortMethod === "Z -> A") {
+//     sortBy = { name_en: "desc" };
+//   }
+//   restaurant
+//     .find({})
+//     .lean()
+//     .sort(sortBy)
+//     .then((restaurantsData) =>
+//       res.render("index", { restaurantsData, sortMethod })
+//     )
+//     .catch((error) => {
+//       console.log(error);
+//       res.render("error", { error_message: error.message });
+//     });
+// });
+
+router.get("/desc", (req, res) => {
   restaurant
-    .find({})
+    .find()
     .lean()
-    .sort(sortBy)
-    .then((restaurantsData) =>
-      res.render("index", { restaurantsData, sortMethod })
-    )
-    .catch((error) => {
-      console.log(error);
-      res.render("error", { error_message: error.message });
-    });
+    .sort({ name: "desc" }) //Z到A
+    .then((restaurantsData) => res.render("index", { restaurantsData }))
+    .catch((error) => console.log(error));
+});
+
+router.get("/category", (req, res) => {
+  restaurant
+    .find()
+    .lean()
+    .sort({ category: "asc" })
+    .then((restaurantsData) => res.render("index", { restaurantsData }))
+    .catch((error) => console.log(error));
+});
+
+router.get("/rating", (req, res) => {
+  restaurant
+    .find()
+    .lean()
+    .sort({ rating: "desc" }) // 高到低評分
+    .then((restaurantsData) => res.render("index", { restaurantsData }))
+    .catch((error) => console.log(error));
 });
 
 module.exports = router;

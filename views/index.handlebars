@@ -41,8 +41,8 @@
           </div>
 
           {{! 參考學員 }}
-          <div id="sort-by">
-            <form action="/sort" method="GET">
+          {{!-- <div id="sort-by">
+            <form action="/sort" method="get">
               <select id="sort" name="sortMethod" onchange="this.form.submit()">
                 <option selected>{{#if
                     sortMethod
@@ -52,8 +52,31 @@
 
               </select>
             </form>
-          </div>
+          </div> --}}
+          <div class="row">
+            <div class="col-md-10 col-14 mx-auto d-flex justify-content-end">
+              <div class="btn-group">
+                <div
+                  type="button"
+                  class="btn btn-outline-dark dropdown-toggle"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  餐廳排序方式
+                </div>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="/">A -> Z</a></li>
+                  <li><a class="dropdown-item" href="/desc">Z -> A</a></li>
+                  <li><a
+                      class="dropdown-item"
+                      href="/category"
+                    >料理類別</a></li>
+                  <li><a class="dropdown-item" href="/rating">評分: 高到低</a></li>
 
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
       </form>
       {{! <div class="text-end">
